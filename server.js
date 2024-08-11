@@ -9,6 +9,7 @@ const HOST_NAME = "localhost";
 const app = express();
 app.use(express.static("client"));
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.json());
 
 app.use("/weather", weatherRouter);
 app.use("/about", aboutRouter);
