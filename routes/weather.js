@@ -2,8 +2,8 @@ const { error } = require("console"); // Retaining the original import
 const express = require("express");
 const https = require('https');
 const path = require('path');
+const Weather = require('../models/WeatherData'); // Import the Weather model
 
-// Create the router instance
 const weatherRoute = express.Router();
 
 weatherRoute.get("/", (req, res) => {
@@ -26,16 +26,27 @@ weatherRoute.post("/", (req, res) => {
         response.on("data", (chunk) => {
             data += chunk;
         });
-        response.on("end", () => {
+        response.on("end", async () => {
             try {
                 const responseData = JSON.parse(data);
-                console.log(responseData); // Correctly logging responseData
                 if (responseData.main) {
                     const temperature = responseData.main.temp;
                     const weatherDes = responseData.weather[0].description;
                     const icon = responseData.weather[0].icon;
                     const imageURL = `https://openweathermap.org/img/wn/${icon}@2x.png`;
                     const cityName = responseData.name;
+
+                    // Create a new Weather entry
+                    const newWeather = new Weather({
+                        cityName,
+                        temperature,
+                        description: weatherDes,
+                        iconUrl: imageURL,
+                        unit
+                    });
+
+                    // Save the entry to the database
+                    await newWeather.save();
 
                     res.json({
                         temperature,
@@ -47,13 +58,14 @@ weatherRoute.post("/", (req, res) => {
                     res.status(404).json({ error: "City not found or invalid API response" });
                 }
             } catch (e) {
+                console.error('Error processing API response:', e);
                 res.status(500).json({ error: "Error processing API response" });
             }
         });
     }).on('error', (e) => {
+        console.error('Request error:', e.message);
         res.status(500).json({ error: `Request error: ${e.message}` });
     });
 });
 
-// Export the router
 module.exports = weatherRoute;
