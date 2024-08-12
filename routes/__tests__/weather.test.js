@@ -36,8 +36,8 @@ describe('POST /weather', () => {
     const response = await request(app)
       .post('/weather')
       .send({
-        cityName: 'London',
-        unit: 'metric'
+        cityName: 'Bengaluru',
+        unit: 'Kelvin'
       })
       .expect(200);
 
@@ -46,7 +46,7 @@ describe('POST /weather', () => {
     expect(response.body).toHaveProperty('iconUrl');
     expect(response.body).toHaveProperty('cityName');
 
-    const weather = await WeatherModel.findOne({ cityName: 'London' });
+    const weather = await WeatherModel.findOne({ cityName: 'Bengaluru' });
     expect(weather).toBeTruthy();
     expect(weather.temperature).toBeDefined();
     expect(weather.description).toBeDefined();
