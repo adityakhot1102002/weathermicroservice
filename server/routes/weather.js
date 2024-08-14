@@ -2,12 +2,12 @@ const { error } = require("console"); // Retaining the original import
 const express = require("express");
 const https = require('https');
 const path = require('path');
-const Weather = require('../models/WeatherData'); // Import the Weather model
+const Weather = require('../../models/WeatherData'); // Import the Weather model
 
 const weatherRoute = express.Router();
 
 weatherRoute.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/public/index.html'));
+    res.sendFile(path.join(__dirname, '../../client/public/index.html'));
 });
 
 weatherRoute.post("/", (req, res) => {
