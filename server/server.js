@@ -1,8 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const aboutRouter = require("./server/routes/about");
-const weatherRouter = require("./server/routes/weather");
+const aboutRouter = require("./routes/about");
+const weatherRouter = require("./routes/weather");
 
 const PORT = 3000;
 const HOST_NAME = "localhost";

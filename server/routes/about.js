@@ -1,5 +1,5 @@
 const express = require("express");
-const properties = require("../../package.json");
+const properties = require("../package.json");
 
 const aboutRoute = express.Router();
 
