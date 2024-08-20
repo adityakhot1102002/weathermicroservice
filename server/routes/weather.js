@@ -3,6 +3,7 @@ const express = require("express");
 const https = require('https');
 const path = require('path');
 const Weather = require('../models/WeatherData'); // Import the Weather model
+require('dotenv').config();
 
 const weatherRoute = express.Router();
 
@@ -12,7 +13,7 @@ weatherRoute.get("/", (req, res) => {
 
 weatherRoute.post("/", (req, res) => {
     const city = req.body.cityName;
-    const apiKey = "0a2c25ce16e96eb5514bf2505f4dabe3";
+    const apiKey = process.env.WEATHER_API_KEY;
     const unit = req.body.unit;
 
     if (!city || !unit) {
